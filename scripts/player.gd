@@ -3,18 +3,19 @@ extends CharacterBody2D
 const SLOWED_SPEED = 15.0
 const WALKING_SPEED = 30.0
 
-@export var water_tilemap: TileMap
+@export var tilemap: TileMap
+@export var done_tilemap: TileMap
 @export var gift_scene: PackedScene
 
-var speed = 30.0
+var speed = WALKING_SPEED
 var on_water = false
 var water_cycle = 0
 var frames = 0
 
 
 func _physics_process(delta):
-	var is_moving_horizontal = velocity[0] != 0
-	var is_moving_verical = velocity[1] != 0
+	var is_moving_horizontal = velocity.x != 0
+	var is_moving_verical = velocity.y != 0
 	
 	if Input.is_action_just_pressed("shoot"):
 		shoot()
@@ -74,18 +75,19 @@ func shoot():
 	var gift: CharacterBody2D = gift_scene.instantiate()
 	gift.position = position
 	gift.velocity = velocity + Vector2(gift.SPEED * x_velocity, gift.SPEED * y_velocity)
+	gift.done_tilemap = done_tilemap
 	gift.start()
 	
 	get_parent().add_child(gift)
 	$Shoot.play()
 
 func _on_area_2d_body_entered(body):
-	if body == water_tilemap:
-		on_water = true
-		speed = SLOWED_SPEED
+	if body == tilemap:
+		on_water = false
+		speed = WALKING_SPEED
 
 
 func _on_area_2d_body_exited(body):
-	if body == water_tilemap:
-		on_water = false
-		speed = WALKING_SPEED
+	if body == tilemap:
+		on_water = true
+		speed = SLOWED_SPEED

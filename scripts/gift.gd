@@ -5,6 +5,9 @@ const SPEED = 200
 const MAX_DISTANCE = 100
 var starting_position = Vector2()
 var is_fleeing = false
+var close_when_done = false
+
+var done_tilemap: TileMap
 
   
 func _physics_process(delta):
@@ -27,4 +30,7 @@ func flee():
 
 
 func _on_animated_sprite_2d_animation_finished():
+	if $Area2D.overlaps_body(done_tilemap):
+		get_tree().quit()
+		
 	queue_free()

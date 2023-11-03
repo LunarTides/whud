@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://rln6b3ynwgse"]
+[gd_scene load_steps=19 format=3 uid="uid://rln6b3ynwgse"]
 
 [ext_resource type="Texture2D" uid="uid://b863bnbofdilr" path="res://assets/gift/gift1.svg" id="1_8b8b7"]
 [ext_resource type="Script" path="res://scripts/gift.gd" id="1_pgwhr"]
@@ -67,6 +67,9 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_vowyj"]
+radius = 16.0
+
 [node name="Gift" type="CharacterBody2D"]
 collision_layer = 0
 collision_mask = 0
@@ -78,5 +81,12 @@ sprite_frames = SubResource("SpriteFrames_ka0od")
 [node name="Flee" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("16_gc7xl")
 volume_db = -10.0
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_vowyj")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
