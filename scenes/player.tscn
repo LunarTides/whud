@@ -1,0 +1,91 @@
+[gd_scene load_steps=15 format=3 uid="uid://r675i28tae1r"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_rsjfn"]
+[ext_resource type="Texture2D" uid="uid://bkkvrbddy61ct" path="res://assets/vessel/vessel1.svg" id="2_fowag"]
+[ext_resource type="Texture2D" uid="uid://bibjueeuuffej" path="res://assets/vessel/vessel2.svg" id="3_oqhnl"]
+[ext_resource type="Texture2D" uid="uid://dvpcg3raonsxn" path="res://assets/vessel/vessel5.svg" id="4_kv7vk"]
+[ext_resource type="Texture2D" uid="uid://cd5qqchfr557t" path="res://assets/vessel/vessel6.svg" id="5_bs75i"]
+[ext_resource type="Texture2D" uid="uid://d18ur3ibflayk" path="res://assets/vessel/vessel3.svg" id="6_3e4sx"]
+[ext_resource type="AudioStream" uid="uid://bl3m6usxiuxmf" path="res://sfx/water.wav" id="6_sayiu"]
+[ext_resource type="AudioStream" uid="uid://bt0ho8sovr0f2" path="res://sfx/water_alt.wav" id="7_3wgbw"]
+[ext_resource type="Texture2D" uid="uid://bdiaqgmdq0yku" path="res://assets/vessel/vessel4.svg" id="7_buq3m"]
+[ext_resource type="AudioStream" uid="uid://b2liq2pa57oxi" path="res://sfx/shoot.wav" id="8_wl4w7"]
+[ext_resource type="AudioStream" uid="uid://pmsqfn3ojkaa" path="res://sfx/begin_run.wav" id="9_ppc0a"]
+[ext_resource type="AudioStream" uid="uid://blpsa1xncug1e" path="res://sfx/walk.wav" id="10_kbob1"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ywgvj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_fowag")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_oqhnl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_kv7vk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_bs75i")
+}],
+"loop": true,
+"name": &"down",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_3e4sx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_buq3m")
+}],
+"loop": true,
+"name": &"up",
+"speed": 3.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mluqg"]
+size = Vector2(16, 26)
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 8
+script = ExtResource("1_rsjfn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ywgvj")
+animation = &"down"
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-2, 3)
+shape = SubResource("RectangleShape2D_mluqg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 3)
+shape = SubResource("RectangleShape2D_mluqg")
+
+[node name="WaterWalk" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_sayiu")
+
+[node name="WaterWalkAlt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_3wgbw")
+
+[node name="Shoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_wl4w7")
+
+[node name="BeginRun" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_ppc0a")
+volume_db = -10.0
+
+[node name="Walk" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_kbob1")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
