@@ -57,7 +57,6 @@ script = ExtResource("1_rsjfn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ywgvj")
-animation = &"down"
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_mask = 6
